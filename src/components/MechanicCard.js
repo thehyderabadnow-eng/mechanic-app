@@ -1,59 +1,96 @@
 "use client";
 import { PhoneCall, MapPin, Wrench, Car, Truck } from "lucide-react";
 
-// 1. Add 'distance' to the list of props
 export default function MechanicCard({ name, location, type, status, phone, distance }) {
-
-  // Helper to show the right icon based on type
-  const getIcon = () => {
-    switch (type) {
-      case "Bike": return <Wrench size={18} />; // Changed Tool to Wrench
-      case "Car": return <Car size={18} />;
-      case "Towing": return <Truck size={18} />;
-      default: return <Wrench size={18} />;
-    }
+  // Gradient themes by service type
+  const themes = {
+    Bike: "from-orange-400 to-red-500",
+    Car: "from-blue-500 to-indigo-600",
+    Towing: "from-gray-700 to-gray-900",
   };
 
-  return (
-    <div className="relative bg-white rounded-2xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-shadow">
-
-      {/* 2. DISTANCE BADGE - Only shows if distance is calculated */}
-      {distance !== null && distance !== undefined && (
-        <div className="absolute top-4 right-4 bg-green-50 text-green-700 text-xs font-bold px-2 py-1 rounded-lg border border-green-100">
-          {distance < 1 ? `${(distance * 1000).toFixed(0)}m` : `${distance.toFixed(1)} km`} away
-        </div>
+  const getVisualHeader = () => (
+    <div
+      className={`h-44 sm:h-56 w-full bg-gradient-to-br ${
+        themes[type] || themes.Bike
+      } relative flex items-center justify-center overflow-hidden`}
+    >
+      {/* Distance Badge */}
+      {distance !== null && (
+        <div className="absolute top-5 right-5 bg-white/20 backdrop-blur-md text-white text-[10px] font-black px-3 py-1.5 rounded-full border border-white/30 shadow-sm z-20">
+            {distance < 1 ? `${(distance * 1000).toFixed(0)}M` : `${distance.toFixed(1)} KM`} AWAY
+          </div>
       )}
 
-      <div className="flex items-center gap-3 mb-4">
-        <div className="p-3 bg-red-50 text-red-600 rounded-xl">
-          {getIcon()}
-        </div>
-        <div>
-          <h3 className="font-bold text-gray-900 text-lg">{name}</h3>
-          <p className="text-gray-500 text-sm flex items-center gap-1">
-            <MapPin size={14} /> {location}
-          </p>
-        </div>
+      {/* Decorative Pattern */}
+      <div className="absolute inset-0 opacity-10 flex flex-wrap gap-6 p-4 rotate-12 scale-150 pointer-events-none">
+        {[...Array(12)].map((_, i) => (
+          <Wrench key={i} size={28} className="text-white" />
+        ))}
       </div>
 
-      <div className="flex justify-between items-center mb-6">
-        <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">
-          Service: <span className="text-gray-700">{type}</span>
-        </span>
-        <span className={`text-xs font-bold px-2 py-1 rounded-md ${status === "Available" ? "bg-green-100 text-green-600" : "bg-orange-100 text-orange-600"
-          }`}>
-          {status}
-        </span>
+      {/* Central Icon */}
+      <div className="z-10 bg-white/10 backdrop-blur-xl p-6 rounded-3xl border border-white/20 shadow-lg transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+        {type === "Bike" && <Wrench size={48} className="text-white" />}
+        {type === "Car" && <Car size={48} className="text-white" />}
+        {type === "Towing" && <Truck size={48} className="text-white" />}
       </div>
+    </div>
+  );
 
-      {/* 3. CLICK TO CALL LOGIC */}
-      <a
-        href={`tel:${phone}`}
-        className="flex items-center justify-center gap-2 w-full bg-red-600 text-white font-bold py-3 rounded-xl hover:bg-red-700 transition-all active:scale-95"
-      >
-        <PhoneCall size={18} />
-        Call Now
-      </a>
+  return (
+    <div className="group bg-white rounded-3xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      {/* Header */}
+      {getVisualHeader()}
+
+      <div className="p-6 sm:p-8">
+        {/* Identity */}
+        <div className="mb-5">
+          <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900 mb-2 group-hover:text-red-600 transition-colors duration-300">
+            {name}
+          </h3>
+          <div className="flex items-center gap-1.5 text-gray-500">
+            <MapPin size={16} className="text-red-500" />
+            <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider">
+              {location}
+            </span>
+          </div>
+        </div>
+
+        {/* Service & Status */}
+        <div className="flex items-center justify-between mb-6 pb-6 border-b border-gray-100">
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+              Specialization
+            </span>
+            <span className="text-sm font-semibold text-gray-700">
+              {type} Services
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-lg">
+            <span
+              className={`w-2 h-2 rounded-full ${
+                status === "Available"
+                  ? "bg-green-500 animate-pulse"
+                  : "bg-orange-400"
+              }`}
+            ></span>
+            <span className="text-[11px] font-bold text-gray-700 uppercase tracking-tight">
+              {status}
+            </span>
+          </div>
+        </div>
+
+        {/* Action Button */}
+        <a
+          href={`tel:${phone}`}
+          className="flex items-center justify-center gap-2 w-full bg-red-600 text-white font-bold py-4 rounded-2xl hover:bg-red-700 transition-all cursor-pointer shadow-md hover:shadow-lg active:scale-95 duration-200"
+        >
+          <PhoneCall size={20} />
+          Contact Now
+        </a>
+      </div>
     </div>
   );
 }

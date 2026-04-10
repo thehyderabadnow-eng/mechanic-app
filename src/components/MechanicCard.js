@@ -11,15 +11,14 @@ export default function MechanicCard({ name, location, type, status, phone, dist
 
   const getVisualHeader = () => (
     <div
-      className={`h-44 sm:h-56 w-full bg-gradient-to-br ${
-        themes[type] || themes.Bike
-      } relative flex items-center justify-center overflow-hidden`}
+      className={`h-44 sm:h-56 w-full bg-gradient-to-br ${themes[type] || themes.Bike
+        } relative flex items-center justify-center overflow-hidden`}
     >
       {/* Distance Badge */}
       {distance !== null && (
         <div className="absolute top-5 right-5 bg-white/20 backdrop-blur-md text-white text-[10px] font-black px-3 py-1.5 rounded-full border border-white/30 shadow-sm z-20">
-            {distance < 1 ? `${(distance * 1000).toFixed(0)}M` : `${distance.toFixed(1)} KM`} AWAY
-          </div>
+          {distance < 1 ? `${(distance * 1000).toFixed(0)}M` : `${distance.toFixed(1)} KM`} AWAY
+        </div>
       )}
 
       {/* Decorative Pattern */}
@@ -70,11 +69,10 @@ export default function MechanicCard({ name, location, type, status, phone, dist
 
           <div className="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-lg">
             <span
-              className={`w-2 h-2 rounded-full ${
-                status === "Available"
+              className={`w-2 h-2 rounded-full ${status === "Available"
                   ? "bg-green-500 animate-pulse"
                   : "bg-orange-400"
-              }`}
+                }`}
             ></span>
             <span className="text-[11px] font-bold text-gray-700 uppercase tracking-tight">
               {status}
@@ -85,10 +83,10 @@ export default function MechanicCard({ name, location, type, status, phone, dist
         {/* Action Button */}
         <a
           href={`tel:${phone}`}
-          className="flex items-center justify-center gap-2 w-full bg-red-600 text-white font-bold py-4 rounded-2xl hover:bg-red-700 transition-all cursor-pointer shadow-md hover:shadow-lg active:scale-95 duration-200"
+          className="flex items-center justify-center gap-3 w-full bg-blue-600 text-white font-black py-5 rounded-[1.8rem] hover:bg-gray-900 transition-all cursor-pointer shadow-xl shadow-blue-200 active:scale-95"
         >
           <PhoneCall size={20} />
-          Contact Now
+          CONTACT NOW
         </a>
       </div>
     </div>

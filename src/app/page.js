@@ -24,10 +24,10 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
   const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c; 
+  return R * c;
 }
 
 export default function Home() {
@@ -75,8 +75,8 @@ export default function Home() {
       distance: userLocation ? calculateDistance(userLocation.latitude, userLocation.longitude, mech.lat, mech.lng) : null
     }))
     .filter(mech => {
-      const matchesSearch = mech.location.toLowerCase().includes(search.toLowerCase()) || 
-                            mech.name.toLowerCase().includes(search.toLowerCase());
+      const matchesSearch = mech.location.toLowerCase().includes(search.toLowerCase()) ||
+        mech.name.toLowerCase().includes(search.toLowerCase());
       const matchesCategory = category === "All" || mech.type === category;
       return matchesSearch && matchesCategory;
     })
@@ -88,7 +88,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#fafafa] relative overflow-x-hidden pb-20">
-      
+
       {/* 1. PREMIUM MESH BACKGROUND */}
       <div className="fixed inset-0 -z-10 pointer-events-none opacity-40">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-red-100 rounded-full blur-[120px]"></div>
@@ -99,20 +99,22 @@ export default function Home() {
       <header className="max-w-7xl mx-auto px-6 pt-16 pb-10 flex flex-col md:flex-row justify-between items-end gap-8">
         <div>
           <h1 className="text-6xl font-black text-gray-900 tracking-tighter mb-2">
-            URGENT<span className="text-red-600">MECH</span>
+            CITY<span className="text-blue-600">MECH</span>
           </h1>
-          <p className="text-gray-400 font-bold text-xs tracking-[0.3em] uppercase">Emergency Response • Hyderabad</p>
+          <p className="text-gray-400 font-bold text-xs tracking-[0.3em] uppercase">
+            Hyderabad's Official Emergency Network
+          </p>
         </div>
 
         {/* VIEW TOGGLE WITH POINTER CURSOR */}
         <div className="flex bg-white p-1.5 rounded-3xl shadow-sm border border-gray-100">
-          <button 
+          <button
             onClick={() => setView("list")}
             className={`flex items-center gap-2 px-8 py-3 rounded-2xl text-xs font-black transition-all cursor-pointer ${view === "list" ? "bg-gray-900 text-white shadow-xl" : "text-gray-400 hover:bg-gray-50"}`}
           >
             <LayoutGrid size={16} /> LIST
           </button>
-          <button 
+          <button
             onClick={() => setView("map")}
             className={`flex items-center gap-2 px-8 py-3 rounded-2xl text-xs font-black transition-all cursor-pointer ${view === "map" ? "bg-gray-900 text-white shadow-xl" : "text-gray-400 hover:bg-gray-50"}`}
           >
@@ -125,9 +127,9 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-6 mb-12 space-y-8">
         <div className="relative group max-w-2xl">
           <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-red-500 transition-colors" size={20} />
-          <input 
-            type="text" 
-            placeholder="Search by area or workshop name..." 
+          <input
+            type="text"
+            placeholder="Search by area or workshop name..."
             className="w-full pl-14 pr-6 py-5 rounded-[2rem] bg-white border border-gray-100 focus:ring-4 focus:ring-red-500/5 outline-none transition-all shadow-sm text-gray-700 font-medium"
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -138,11 +140,10 @@ export default function Home() {
             <button
               key={type}
               onClick={() => setCategory(type)}
-              className={`px-8 py-4 rounded-2xl font-black text-[10px] tracking-widest uppercase whitespace-nowrap transition-all border cursor-pointer flex items-center gap-3 ${
-                category === type 
-                ? "bg-red-600 text-white border-red-600 shadow-xl shadow-red-500/20" 
-                : "bg-white text-gray-400 border-gray-100 hover:border-gray-200"
-              }`}
+              className={`px-8 py-4 rounded-2xl font-black text-[10px] tracking-widest uppercase whitespace-nowrap transition-all border cursor-pointer flex items-center gap-3 ${category === type
+                  ? "bg-red-600 text-white border-red-600 shadow-xl shadow-red-500/20"
+                  : "bg-white text-gray-400 border-gray-100 hover:border-gray-200"
+                }`}
             >
               {type === "Bike" && <Wrench size={14} />}
               {type === "Car" && <Car size={14} />}
